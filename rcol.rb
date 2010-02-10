@@ -49,5 +49,5 @@ max_number_of_sections = line_section_groups.max{|a, b| a.size <=> b.size}.size
   end
 end
 
-new_line_groups.collect!{|g| g.join("")}
+new_line_groups.collect!{|g| g.join("").rstrip}
 puts new_line_groups.join("\n")

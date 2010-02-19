@@ -1,0 +1,28 @@
+.needs-confirmation {
+  width:100px;
+  height:40px;
+  position:relative;
+}
+
+.title {
+  font-size:16px;
+  font-weight:bold;
+}
+
+.needs-confirmation-wrapper {
+  height:20px;
+  width:100px;
+  position:absolute;
+  overflow:hidden;
+  border:3px solid #ffd7a4;
+  padding:10px;
+  background:#ffdec8;
+}
+
+.explanation {
+  display:none;
+}
+
+.confirm-wrapper {
+  display:none;
+}

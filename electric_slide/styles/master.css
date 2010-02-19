@@ -1,28 +1,39 @@
-.needs-confirmation {
-  width:100px;
-  height:40px;
-  position:relative;
+/*
+Some of these styles taken from
+http://github.com/nakajima/slidedown/blob/master/templates/stylesheets/slides.css
+*/
+#slides {
+  overflow: hidden;
+  text-align: left;
+}
+ 
+#track {
+  width: 1000000px;
+  overflow: hidden;
+}
+ 
+#track > div {
+  float: left;
+  overflow: hidden;
+}
+ 
+#track > div .content {
+  margin: 0 0.6em;
+}
+ 
+#track > div .content h1 {
+  margin-bottom: 0.1em;
+}
+ 
+#track > div .content h1 strong {
+  text-decoration: underline;
 }
 
-.title {
-  font-size:16px;
-  font-weight:bold;
-}
-
-.needs-confirmation-wrapper {
-  height:20px;
-  width:100px;
-  position:absolute;
-  overflow:hidden;
-  border:3px solid #ffd7a4;
-  padding:10px;
-  background:#ffdec8;
-}
-
-.explanation {
-  display:none;
-}
-
-.confirm-wrapper {
+/* 
+  Very weird: for some reason when jquery is computing heights
+  it doesn't correctly accommodate the height of the interior p element
+  except when the containing slide is not displayed
+*/
+.slide {
   display:none;
 }

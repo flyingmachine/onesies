@@ -1,38 +1,47 @@
 $(function(){
-  $(".needs-confirmation-wrapper").toggle(
-    function() {
-      var borderColor = "#ff8873"
-      $(this).animate({ 
-        backgroundColor: "#ffbca7", 
-        borderLeftColor: borderColor,
-        borderTopColor: borderColor,
-        borderRightColor: borderColor,
-        borderBottomColor: borderColor,
-        width: "300", 
-        height:"165px", 
-        top:"-=35"
-      }, {
-        duration: 500,
-        complete: function() {
-          $(this).children(".explanation, .confirm-wrapper").show();
-        }
-      });
-      
-    },function() {
-      $(this).children(".explanation, .confirm-wrapper").hide();
-      var borderColor = "#ffd7a4"
-      $(this).animate({
-        backgroundColor: "#ffdec8", 
-        borderLeftColor: borderColor,
-        borderTopColor: borderColor,
-        borderRightColor: borderColor,
-        borderBottomColor: borderColor,
-        width: "100", 
-        height:"20px", 
-        top:"0", 
-        marginBottom:"0" }, {
-          duration: 500,
-        });
-    });
+  var maxHeight = 0;
+  var maxTopMargin = 0;
+  var maxBottomMargin = 0;
+  var maxTopPadding = 0;
+  var maxBottomPadding = 0;
+  var maxTopBorder = 0;
+  var maxBottomBorder = 0;
+  
+  $(".slide").each(function(){
+    var height = $(this).height();
+    if(height > maxHeight) maxHeight = height;
     
+    // margins
+    var margins = $(this).margin();
+    
+    var topMargin = margins.top;
+    if(topMargin > maxTopMargin) maxTopMargin = topMargin;
+    
+    var bottomMargin = margins.bottom;
+    if(bottomMargin > maxBottomMargin) maxBottomMargin = bottomMargin;
+    
+    // padding
+    var padding = $(this).padding();
+    
+    var topPadding = padding.top;
+    if(topPadding > maxTopPadding) maxTopPadding = topPadding;
+    
+    var bottomPadding = padding.bottom;
+    if(bottomPadding > maxBottomPadding) maxBottomPadding = bottomPadding;
+    
+    
+    // border
+    var border = $(this).border();
+    
+    var topBorder = border.top;
+    if(topBorder > maxTopBorder) maxTopBorder = topBorder;
+    
+    var bottomBorder = border.bottom;
+    if(bottomBorder > maxBottomBorder) maxBottomBorder = bottomBorder;
+  })
+  $("#slides").height(maxHeight + maxTopMargin + maxBottomMargin + maxTopPadding + maxBottomPadding + maxTopBorder + maxBottomBorder)
+  $(".slide").each(function(){
+    $(this).height(maxHeight)
+    $(this).show();
+  })
 })

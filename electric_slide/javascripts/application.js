@@ -7,6 +7,8 @@ $(function(){
   var maxTopBorder = 0;
   var maxBottomBorder = 0;
   
+  var width = $("#slides").width()
+  
   $(".slide").each(function(){
     var height = $(this).height();
     if(height > maxHeight) maxHeight = height;
@@ -39,9 +41,16 @@ $(function(){
     var bottomBorder = border.bottom;
     if(bottomBorder > maxBottomBorder) maxBottomBorder = bottomBorder;
   })
+  
   $("#slides").height(maxHeight + maxTopMargin + maxBottomMargin + maxTopPadding + maxBottomPadding + maxTopBorder + maxBottomBorder)
+  
   $(".slide").each(function(){
     $(this).height(maxHeight)
     $(this).show();
+    $(this).width(width);
+  })
+  jQuery.easing.def = "easeOutQuart";
+  $("#slides").click(function(){
+    $('#track').animate({ marginLeft: '-' + width + 'px' }, 200);
   })
 })

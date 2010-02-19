@@ -14,7 +14,6 @@ http://github.com/nakajima/slidedown/blob/master/templates/stylesheets/slides.cs
  
 #track > div {
   float: left;
-  overflow: hidden;
 }
  
 #track > div .content {

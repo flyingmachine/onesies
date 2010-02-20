@@ -190,13 +190,21 @@ jQuery.fn.electricSlide = function(options){
         showSlide(newSlidePosition)
       }
     }
+    
+    // similar to http://github.com/nakajima/slidedown/blob/master/templates/javascripts/slides.js
+    function clickMove(e) {
+      var x = e.pageX - this.offsetLeft;
 
-    slideContainer.dblclick(function(){
-      showNextSlide();
-    })
+      if (x < slideWidth() / 2) {
+        showPreviousSlide();
+      } else {
+        showNextSlide();
+      }
+    }
+    slideContainer.dblclick(clickMove)
+
+    return this;
   });
-  
-  return this;
 };
 
 $(function(){

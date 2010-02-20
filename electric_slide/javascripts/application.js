@@ -53,7 +53,8 @@ $(function(){
   var maxBottomPadding = 0;
   var maxTopBorder = 0;
   var maxBottomBorder = 0;
-  function findMaxDimensions(slideElem) {
+  
+  function setMaxDimensions(slideElem) {
     var height = $(slideElem).height();
     if(height > maxHeight) maxHeight = height;
     
@@ -84,6 +85,21 @@ $(function(){
     
     var bottomBorder = border.bottom;
     if(bottomBorder > maxBottomBorder) maxBottomBorder = bottomBorder;
+  }
+  
+  function resetDimensions() {
+    maxHeight = 0;
+    maxTopMargin = 0;
+    maxBottomMargin = 0;
+    maxTopPadding = 0;
+    maxBottomPadding = 0;
+    maxTopBorder = 0;
+    maxBottomBorder = 0;
+    slides.each(function(){
+      $(this).width(slideWidth());
+      setMaxDimensions(this);
+      setSlideContainerHeight();
+    })
   }
   
   function slideWidth() {
@@ -118,7 +134,7 @@ $(function(){
   slides.each(function(i){
     if(settings.shouldInsertHeader) insertHeader(i, this);
     $(this).width(slideWidth());
-    findMaxDimensions(this);
+    setMaxDimensions(this);
     
     if(i == 0) {
       $(this).show();
@@ -134,7 +150,12 @@ $(function(){
     this.willLoseFocus   = settings.slideWillLoseFocus;
     this.didLoseFocus    = settings.slideDidLoseFocus;
   })
-  $("#slides").height(maxHeight + maxTopMargin + maxBottomMargin + maxTopPadding + maxBottomPadding + maxTopBorder + maxBottomBorder)
+  
+  function setSlideContainerHeight() {
+    slideContainer.height(maxHeight + maxTopMargin + maxBottomMargin + maxTopPadding + maxBottomPadding + maxTopBorder + maxBottomBorder)
+  }
+  setSlideContainerHeight();
+  $(window).resize(resetDimensions)
   
   // Navigation
   function showSlide(newSlidePosition) {

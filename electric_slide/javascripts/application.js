@@ -7,10 +7,17 @@ $(function(){
     slideIdentifier          : ".slide",
     slideContainerIdentifier : "#slides",
     shouldInsertHeader       : true,
-    showFunction             : function(){$(this).show()},
+    showFunction             : function(){$(this).slideDown()},
     hideFunction             : function(){$(this).hide()},
+    
+    // allows you to prevent the slide from losing focus
+    // not sure if "getFocus" should be "hide"
+    slideShouldGetFocus      : trueSlideFunction,
+    
+    // setup the slide before it appears.
     slideWillGetFocus        : trueSlideFunction,
     slideDidGetFocus         : trueSlideFunction,
+    slideShouldLoseFocus     : trueSlideFunction,
     slideWillLoseFocus       : trueSlideFunction,
     slideDidLoseFocus        : trueSlideFunction
   }

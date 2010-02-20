@@ -15,7 +15,6 @@ $(function(){
     slideIdentifier          : ".slide",
     slideContainerIdentifier : "#slides",
     
-    
     // header
     shouldInsertHeader       : true,
     nextHtml                 : "<a href='#' class='slide-navigation next'>next</a>",
@@ -25,16 +24,10 @@ $(function(){
     showFunction             : function(){$(this).slideDown()},
     hideFunction             : function(){$(this).hide()},
     
-    
     // callbacks
-    
-    // allows you to prevent the slide from losing focus
-    // not sure if "getFocus" should be "hide"
-    slideShouldGetFocus      : trueSlideFunction,
-    
-    // setup the slide before it appears
-    slideWillGetFocus        : trueSlideFunction,
-    slideDidGetFocus         : trueSlideFunction,
+    slideShouldGetFocus      : trueSlideFunction, // allows you to prevent the slide from losing focus; not sure if "getFocus" should be "hide"
+    slideWillGetFocus        : trueSlideFunction, // setup the slide before it appears
+    slideDidGetFocus         : trueSlideFunction, // do stuff with the slide after it appears
     slideShouldLoseFocus     : trueSlideFunction,
     slideWillLoseFocus       : trueSlideFunction,
     slideDidLoseFocus        : trueSlideFunction

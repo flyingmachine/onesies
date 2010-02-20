@@ -1,4 +1,12 @@
-$(function(){  
+$(function(){
+  /*
+    In all of the functions defined in settings,
+    "this" refers to the slide element.
+    
+    Each slide element has a "slideContext" attribute
+    which you can use to refer to anything defined here.
+  */
+  
   function trueSlideFunction(slide){
     return true;
   }
@@ -6,15 +14,25 @@ $(function(){
   var settings = {
     slideIdentifier          : ".slide",
     slideContainerIdentifier : "#slides",
+    
+    
+    // header
     shouldInsertHeader       : true,
+    nextHtml                 : "<a href='#' class='slide-navigation next'>next</a>",
+    previousHtml             : "<a href='#' class='slide-navigation previous'>previous</a>",
+    
+    // show/hide 
     showFunction             : function(){$(this).slideDown()},
     hideFunction             : function(){$(this).hide()},
+    
+    
+    // callbacks
     
     // allows you to prevent the slide from losing focus
     // not sure if "getFocus" should be "hide"
     slideShouldGetFocus      : trueSlideFunction,
     
-    // setup the slide before it appears.
+    // setup the slide before it appears
     slideWillGetFocus        : trueSlideFunction,
     slideDidGetFocus         : trueSlideFunction,
     slideShouldLoseFocus     : trueSlideFunction,
@@ -22,6 +40,7 @@ $(function(){
     slideDidLoseFocus        : trueSlideFunction
   }
   
+  var slideContext = this;
   var slides = $(settings.slideIdentifier);
   var slideContainer = $(settings.slideContainerIdentifier)
   var currentSlidePosition = 0;
@@ -71,7 +90,20 @@ $(function(){
     return $("#slides").width()
   }
   
-  function insertHeader(slideElem){
+  function insertHeader(i, slideElem){
+    var header = $("<div class='slide-header'></div>'")
+    
+    var nextElement = $(settings.nextHtml)
+    nextElement.click(showNextSlide)
+    
+    var previousElement = $(settings.previousHtml)
+    previousElement.click(showPreviousSlide)
+    
+    // don't show next/previous if there is no next/previous
+    if(i > 0) header.append(previousElement)
+    if(i < maxSlidePosition()) header.append(nextElement);
+    
+    $(slideElem).prepend(header)
   }
   
   function currentSlide() {
@@ -79,25 +111,28 @@ $(function(){
   }
   
   function maxSlidePosition() {
-    return slides.size();
+    return slides.size() - 1;
   }
   
   // setup slides
-  slides.each(function(i, el){
-    if(settings.shouldInsertHeader) insertHeader(this);
+  slides.each(function(i){
+    if(settings.shouldInsertHeader) insertHeader(i, this);
     $(this).width(slideWidth());
-    findMaxDimensions(el);
+    findMaxDimensions(this);
     
     if(i == 0) {
       $(this).show();
     }
     
+    this.slideContext    = slideContext;
     this.show = settings.showFunction;
     this.hide = settings.hideFunction;
-    this.willGetFocus  = settings.slideWillGetFocus;
-    this.didGetFocus   = settings.slideDidGetFocus;
-    this.willLoseFocus = settings.slideWillLoseFocus;
-    this.didLoseFocus  = settings.slideDidLoseFocus;
+    this.shouldGetFocus  = settings.slideShouldGetFocus;
+    this.willGetFocus    = settings.slideWillGetFocus;
+    this.didGetFocus     = settings.slideDidGetFocus;
+    this.shouldLoseFocus = settings.slideShouldLoseFocus;
+    this.willLoseFocus   = settings.slideWillLoseFocus;
+    this.didLoseFocus    = settings.slideDidLoseFocus;
   })
   $("#slides").height(maxHeight + maxTopMargin + maxBottomMargin + maxTopPadding + maxBottomPadding + maxTopBorder + maxBottomBorder)
   
@@ -110,16 +145,18 @@ $(function(){
       return false;
     }
     
-    if(!oldSlide.willLoseFocus()) {
+    if(!oldSlide.shouldLoseFocus()) {
       return false;
     }
+    oldSlide.willLoseFocus();
     oldSlide.hide();
     oldSlide.didLoseFocus();
     
-    // should I really be doing this?
-    if(!newSlide.willGetFocus()) {
+    // should I really be doing this? will just leave the slideshow blank
+    if(!newSlide.shouldGetFocus()) {
       return false;
     }
+    oldSlide.willGetFocus();
     newSlide.show();
     newSlide.didGetFocus();
     currentSlidePosition = newSlidePosition;
@@ -139,8 +176,7 @@ $(function(){
     }
   }
   
-  jQuery.easing.def = "easeOutQuart";
-  slideContainer.click(function(){
+  slideContainer.dblclick(function(){
     showNextSlide();
   })
 })
